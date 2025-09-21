@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { NativeToast } from 'src/app/core/providers/nativeToast/native-toast';
 import { FilePicker } from '@capawesome/capacitor-file-picker';
 import { Capacitor } from '@capacitor/core';
+import { IImage } from 'src/app/interfaces/image';
+
 
 
 
@@ -22,15 +24,16 @@ export class File {
     }
   }
 
-  async pickImage() {
+  async pickImage(): Promise<IImage> {
     try {
+      // if(!Capacitor.isNativePlatform()) throw new Error();
       const image = await FilePicker.pickImages({
         limit: 1,
         readData: true,
       });
       const img = image.files[0];
       return {
-        data: img.data,
+        data: img.data || '',
         mimeType: img.mimeType,
         name: img.name,
       };
@@ -39,5 +42,4 @@ export class File {
       throw error;
     }
   }
-
 }

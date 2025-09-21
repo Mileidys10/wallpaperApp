@@ -11,13 +11,14 @@ import { Query } from '../provide/query/query';
 import { File } from '../provide/provide/file';
 import { NativeToast } from './providers/nativeToast/native-toast';
 import { Capacitor } from '@capacitor/core';
+import { Loading } from './providers/loading/loading';
 
 
 
 
 
 
-const providers = [Auth, Query, File, NativeToast];
+const providers = [Auth, Query, File, NativeToast, Loading];
 
 @NgModule({
   declarations: [],

@@ -1,0 +1,10 @@
+<ion-fab-button [color]="color">
+  <ion-icon [name]="icon"></ion-icon>
+</ion-fab-button>
+<ion-fab-list [side]="side">
+  @for (btn of buttons; track $index) {
+    <ion-fab-button (click)="onClick(btn.action)">
+      <ion-icon [name]="btn.icon"></ion-icon>
+    </ion-fab-button>
+  }
+</ion-fab-list>

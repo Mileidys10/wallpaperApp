@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router'; 
+import { Loading } from 'src/app/core/providers/loading/loading';
 import { User } from 'src/app/services/user/user';
 
 
@@ -23,7 +24,10 @@ export class LoginPage implements OnInit {
   public password!: FormControl;
   public loginForm!: FormGroup;
   constructor( private userSrv: User,
-    private readonly router: Router) { }
+    private readonly router: Router,
+      private loadingSrv: Loading,
+
+) { }
 
   ngOnInit() {
   this.initForm();
