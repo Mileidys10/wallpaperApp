@@ -10,6 +10,10 @@ export const environment = {
   messagingSenderId: "329205988688",
   appId: "1:329205988688:web:d140aee908e59874728055",
   measurementId: "G-X174C7NHXZ"
+  },
+   SUPABASE: {
+    URL: 'https://xsrwhnvlpvfyihpxlzhs.supabase.co',
+    API_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhzcndobnZscHZmeWlocHhsemhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg0Mzk2NzUsImV4cCI6MjA3NDAxNTY3NX0.xJ_l_CH364rejesnvfSWF7-DDbQMiXXeHxwQnCfhkzg' // tu anon public key
   }
 
 };
