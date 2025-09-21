@@ -1,19 +1,24 @@
 import { provideHttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { isLoggedGuard } from './guards/is-logged-guard';
-import { authGuard } from './guards/auth-guard';
+import { redirectLoggedInTo, redirectUnauthorizedTo, AuthGuard } from '@angular/fire/auth-guard';
+
+const isLogged = () => redirectLoggedInTo(['/home']);
+const isNotLogged = () => redirectUnauthorizedTo(['/home']);
+
 
 const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
-    canActivate: [isLoggedGuard]
+     canActivate: [AuthGuard],
+    data: {authGuardPipe: isLogged},
   },
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
-    canActivate: [authGuard]
+    canActivate: [AuthGuard],
+    data: {authGuardPipe: isNotLogged},
   },
   
   {
@@ -25,14 +30,8 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
-  {
-    path: 'profile',
-    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
-  },
-  {
-    path: 'news-page',
-    loadChildren: () => import('./pages/news-page/news-page.module').then( m => m.NewsPagePageModule)
-  },
+  
+ 
 ];
 
 @NgModule({

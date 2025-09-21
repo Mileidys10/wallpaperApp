@@ -1,5 +1,5 @@
-<ion-content [fullscreen]="true">
-<ion-card>
+<ion-content>
+  <ion-card>
     <ion-card-content>
       <form
       [formGroup]="loginForm">
@@ -22,6 +22,11 @@
               placeholder="**************"
               [control]="password"
               ></app-input>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <a [routerLink]="['/register']">Register</a>
             </ion-col>
           </ion-row>
           <ion-row>
