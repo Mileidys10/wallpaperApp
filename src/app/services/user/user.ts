@@ -27,4 +27,15 @@ export class User {
     }
   }
 
+  async logIn(email: string, password: string) {
+    await this.authSrv.logIn(email, password);
+  }
+
+  async logOut() {
+    await this.authSrv.logOut();
+  }
+
+
+
+
 }

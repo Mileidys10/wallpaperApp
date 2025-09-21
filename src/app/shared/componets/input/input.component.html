@@ -4,8 +4,10 @@
 [placeholder]="placeholder"
 labelPlacement="stacked"
 fill="solid"
-(keyup)="onInputChange($event)"
+[formControl]="control"
+
 >
+<!--(keyup)="onInputChange($event)" -->
 @if (type === 'password') {
   <ion-input-password-toggle slot="end"></ion-input-password-toggle>
 }

@@ -1,8 +1,43 @@
 import { Injectable } from '@angular/core';
+import { NativeToast } from 'src/app/core/providers/nativeToast/native-toast';
+import { FilePicker } from '@capawesome/capacitor-file-picker';
+import { Capacitor } from '@capacitor/core';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class File {
-  
+  constructor(
+    private readonly toast: NativeToast,
+  ) {}
+
+  async requestPermissions() {
+    try {
+      await FilePicker.requestPermissions();
+      await this.toast.show('Permissions granted');
+    } catch (error) {
+      await this.toast.show('You must turn on manually');
+    }
+  }
+
+  async pickImage() {
+    try {
+      const image = await FilePicker.pickImages({
+        limit: 1,
+        readData: true,
+      });
+      const img = image.files[0];
+      return {
+        data: img.data,
+        mimeType: img.mimeType,
+        name: img.name,
+      };
+    } catch (error) {
+      await this.toast.show('Unable to pick an image');
+      throw error;
+    }
+  }
+
 }

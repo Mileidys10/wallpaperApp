@@ -4,41 +4,48 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { redirectLoggedInTo, redirectUnauthorizedTo, AuthGuard } from '@angular/fire/auth-guard';
 
 const isLogged = () => redirectLoggedInTo(['/home']);
-const isNotLogged = () => redirectUnauthorizedTo(['/home']);
+const isNotLogged = () => redirectUnauthorizedTo(['/login']);
 
 
 const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
-    //canActivate: [AuthGuard],
-    // data: {authGuardPipe: isLogged},
+    canActivate: [AuthGuard],
+     data: {authGuardPipe: isLogged},
   },
+
   {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
+    path: 'register',
+    loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule),
+    
   },
+  
   
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
-    //canActivate: [AuthGuard],
-    //data: {authGuardPipe: isNotLogged},
+    canActivate: [AuthGuard],
+    data: {authGuardPipe: isNotLogged},
   },
-  
+
+
   {
-    path: 'register',
-    loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
+    path: '**',
+    redirectTo: 'login',
+    pathMatch: 'full'
   },
   
+
+
+
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
   ],
-  providers: [provideHttpClient()],
+  //providers: [provideHttpClient()],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

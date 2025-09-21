@@ -1,3 +1,17 @@
 <ion-content>
-  <h1>Hola Mundo</h1>
+  <ion-toolbar>
+  <app-button
+    type="button"
+    color="danger"
+    value="Log Out"
+    (click)="logOut()"
+    ></app-button>
+  </ion-toolbar>
+  <app-button
+  type="button"
+  color="success"
+  value="Pick Image"
+  (click)="pickImage()"
+  ></app-button>
+  <pre>{{ image | json }}</pre>
 </ion-content>

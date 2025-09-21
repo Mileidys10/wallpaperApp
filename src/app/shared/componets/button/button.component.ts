@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 type ButtonType = "button" | "reset" | "submit";
-type ColorType =  "danger" | "dark" | "light" | "primary" ;
+type ColorType =  "danger" | "dark" | "light" | "primary"| "success" | "warning" | "medium" | "secondary";
 
 @Component({
   selector: 'app-button',
