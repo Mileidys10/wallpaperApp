@@ -11,19 +11,8 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
-     canActivate: [AuthGuard],
-    data: {authGuardPipe: isLogged},
-  },
-  {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
-    canActivate: [AuthGuard],
-    data: {authGuardPipe: isNotLogged},
-  },
-  
-  {
-    path: 'register',
-    loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
+    //canActivate: [AuthGuard],
+    // data: {authGuardPipe: isLogged},
   },
   {
     path: '',
@@ -31,7 +20,18 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   
- 
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
+    //canActivate: [AuthGuard],
+    //data: {authGuardPipe: isNotLogged},
+  },
+  
+  {
+    path: 'register',
+    loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
+  },
+  
 ];
 
 @NgModule({
