@@ -9,6 +9,7 @@ import { IImage } from '../interfaces/image';
 import { Uploader } from '../core/providers/uploader/uploader';
 import { ActionSheet } from '../core/providers/actionSheet/action-sheet';
 import { Loading } from '../core/providers/loading/loading';
+import { Translate } from '../core/providers/translator/translate';
 
 
 
@@ -29,7 +30,9 @@ export class HomePage implements OnInit {
     private readonly router: Router,
         private readonly uploaderSrv: Uploader,
          private actionSheetSrv: ActionSheet,
-          private loadingSrv: Loading
+          private loadingSrv: Loading,
+    private translateSrv: Translate
+
 
 
   ) { }
@@ -58,21 +61,29 @@ export class HomePage implements OnInit {
   }
 
 public openActions() {
-    this.actionSheetSrv.present('Actions', [
+    this.actionSheetSrv.present( 
+      this.translateSrv.instant('HOME.ACTIONS'), 
+      [
       {
-        text: 'Lock screan',
+        text: this.translateSrv.instant('HOME.LOCKSCREAN'),
         handler: () => console.log('Putting lock screan...'),
       },
       {
-        text: 'Home screan',
+        text: this.translateSrv.instant('HOME.HOMESCREAN'),
         handler: () => console.log('Putting home screan...'),
       },
       {
-        text: 'Cancel',
+        text: this.translateSrv.instant('HOME.CANCEL'),
         role: 'cancel'
       },
     ]);
+
+
   }
+
+
+
+  
 public goToProfile() {
     console.log("Go to profile...");
   }
@@ -88,6 +99,7 @@ public goToProfile() {
     );
          const imge = await this.uploaderSrv.getUrl("images", path);
     this.imgs = [imge, ...this.imgs];
+    await this.loadingSrv.dimiss();
 
   }
 

@@ -5,26 +5,30 @@
         <ion-grid>
           <ion-row>
             <ion-col>
-              <app-input type="text" label="Name" placeholder="Jane" [control]="name"></app-input>
+              <app-input type="text" [label]="'REGISTER.NAME' | translate" placeholder="Jane"
+                [control]="name"></app-input>
             </ion-col>
-          
+
             <ion-col>
-              <app-input type="text" label="Last name" placeholder="Doe" [control]="lastName"></app-input>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <app-input type="email" label="Email" placeholder="jane@doe.com" [control]="email"></app-input>
+              <app-input type="text" [label]="'REGISTER.LASTNAME' | translate" placeholder="Doe"
+                [control]="lastName"></app-input>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
-              <app-input type="password" label="Password" placeholder="**************" [control]="password"></app-input>
+              <app-input type="email" [label]="'REGISTER.EMAIL' | translate" placeholder="jane@doe.com"
+                [control]="email"></app-input>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
-              <app-link link="/login" value="Already registered?"></app-link> </ion-col>
+              <app-input type="password" [label]="'REGISTER.PASSWORD' | translate" placeholder="**************"
+                [control]="password"></app-input>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <app-link link="/login" [value]="'REGISTER.' | translate"></app-link> </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>

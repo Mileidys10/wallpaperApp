@@ -13,6 +13,7 @@ import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -23,13 +24,13 @@ import { environment } from '../environments/environment';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    SharedModule, CoreModule,
+ CoreModule, HttpClientModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore())
+    //provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    //provideAuth(() => getAuth()),
+    //provideFirestore(() => getFirestore())
   ],
   bootstrap: [AppComponent],
 })

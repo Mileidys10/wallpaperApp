@@ -1,3 +1,16 @@
-<p>
-  toggle-translate works!
-</p>
+<ion-item>
+  <ion-label>
+    {{ left }}
+  </ion-label>
+
+  <ion-toggle
+  [checked]="value"
+  (ionChange)="onChange($event)"
+  alignment="center"
+  color="light"
+  ></ion-toggle>
+  
+  <ion-label slot="end">
+    {{ rigth }}
+  </ion-label>
+</ion-item>

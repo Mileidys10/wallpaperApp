@@ -11,10 +11,11 @@ import { ToggleTranslateComponent } from './componets/toggle-translate/toggle-tr
 import { LinkComponent } from './componets/link/link.component';
 import { CardComponent } from './componets/card/card.component';
 import { FloatingButtonComponent } from './componets/floating-button/floating-button.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
-const myModules = [ CommonModule, FormsModule, ReactiveFormsModule, IonicModule, RouterModule ];
+const myModules = [ CommonModule, FormsModule, ReactiveFormsModule, IonicModule, RouterModule,TranslateModule ];
 const myComponents = [ InputComponent, ButtonComponent, ToggleTranslateComponent, LinkComponent, CardComponent, FloatingButtonComponent ];
 const myProviders = [ User,ActionSheet ];
 @NgModule({

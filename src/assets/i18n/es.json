@@ -1,0 +1,24 @@
+
+{
+    "LOGIN": {
+        "EMAIL": "Correo",
+        "PASSWORD": "Contraseña",
+        "LINK": "¿No tienes una cuenta?",
+        "BUTTON": "Iniciar Sesion"
+    },
+    "REGISTER": {
+        "NAME": "Nombre",
+        "LASTNAME": "Apellido",
+        "EMAIL": "Correo",
+        "PASSWORD": "Contraseña",
+        "LINK": "¿Ya estas registrado?",
+        "BUTTON": "Registrar"
+    },
+    "HOME": {
+        "TITLE": "Mis Fondos de Pantalla",
+        "ACTIONS": "Acciones",
+        "LOCKSCREAN": "Pantalla de bloqueo",
+        "HOMESCREAN": "Pantalla de inicio",
+        "CANCEL": "Cancelar"
+    }
+}

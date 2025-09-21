@@ -1,0 +1,23 @@
+{
+    "LOGIN": {
+        "EMAIL": "Email",
+        "PASSWORD": "Password",
+        "LINK": "Don't have an account?",
+        "BUTTON": "Log In"
+    },
+    "REGISTER": {
+        "NAME": "Name",
+        "LASTNAME": "Last name",
+        "EMAIL": "Email",
+        "PASSWORD": "Password",
+        "LINK": "Already registered?",
+        "BUTTON": "Register"
+    },
+    "HOME": {
+        "TITLE": "My Wallpaper",
+        "ACTIONS": "Actions",
+        "LOCKSCREAN": "Lock screan",
+        "HOMESCREAN": "Home screan",
+        "CANCEL": "Cancel"
+    }
+}

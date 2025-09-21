@@ -8,7 +8,8 @@
             <ion-col>
               <app-input
               type="email"
-              label="Email"
+              [label]="'LOGIN.EMAIL' | translate"
+
               placeholder="jane@doe.com"
               [control]="email"
               ></app-input>
@@ -18,7 +19,7 @@
             <ion-col>
               <app-input
               type="password"
-              label="Password"
+              [label]="'LOGIN.PASSWORD' | translate"
               placeholder="**************"
               [control]="password"
               ></app-input>
