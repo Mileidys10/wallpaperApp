@@ -1,0 +1,58 @@
+<ion-content>
+  <h2>{{ 'HOME.TITLE' | translate }}</h2>
+
+  <ion-card>
+    <ion-card-content>
+      <form [formGroup]="updaterForm" (ngSubmit)="onSubmit()">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <app-input type="text" [label]="'REGISTER.NAME' | translate" placeholder="Jane"
+                [control]="name"></app-input>
+            </ion-col>
+
+            <ion-col>
+              <app-input type="text" [label]="'REGISTER.LASTNAME' | translate" placeholder="Doe"
+                [control]="lastName"></app-input>
+            </ion-col>
+          </ion-row>  
+          <ion-row>
+            <ion-col>
+              <app-button type="submit" color="dark" [disabled]="updaterForm.invalid" value="Update"></app-button>
+            </ion-col>
+            <ion-col>
+                <app-button
+                type="submit"
+                   color="dark"
+                    value="Go to Home"
+                    (click)="goToHome()"
+                  ></app-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+          <ion-item>
+    <ion-label>Language</ion-label>
+    <ion-select [value]="currentLang" (ionChange)="setLang($event.detail.value)">
+      <ion-select-option value="en">English</ion-select-option>
+      <ion-select-option value="es">Español</ion-select-option>
+    </ion-select>
+  </ion-item>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

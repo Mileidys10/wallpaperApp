@@ -29,6 +29,12 @@ const routes: Routes = [
     data: {authGuardPipe: isNotLogged},
   },
 
+  {
+    path: 'profile',
+    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule),
+     canActivate: [AuthGuard],
+    data: {authGuardPipe: isNotLogged},
+  },
 
   {
     path: '**',

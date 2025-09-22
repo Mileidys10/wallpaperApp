@@ -25,10 +25,22 @@
               ></app-input>
             </ion-col>
           </ion-row>
+               <ion-row>
+            <ion-col size="4">
+              <app-toggle-translate
+              [(value)]="language"
+              left="🇺🇸"
+              rigth="🇨🇴"
+              (valueChange)="changeLang($event)"
+              ></app-toggle-translate>
+            </ion-col>
+          </ion-row>
           <ion-row>
             <ion-col>
-              <a [routerLink]="['/register']">Register</a>
-            </ion-col>
+           <app-link
+              link="/register"
+              [value]="'LOGIN.LINK' | translate"
+              ></app-link>            </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
@@ -36,7 +48,8 @@
               type="submit"
               color="dark"
               [disabled]="loginForm.invalid"
-              value="Login"
+              [value]="'LOGIN.BUTTON' | translate"
+
               (click)="logIn()"
               ></app-button>
             </ion-col>

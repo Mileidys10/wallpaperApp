@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, doc, setDoc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, doc, updateDoc,setDoc } from '@angular/fire/firestore';
 
 
 
@@ -17,6 +17,15 @@ export class Query {
       const res = await addDoc(ref, data);
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async update(collectionName: string, uuid: string, data: any) {
+    try {
+      const docRef = doc(this.fst, collectionName, uuid);
+      await updateDoc(docRef, data);
+    } catch (error) {
+      console.log((error as any).message);
     }
   }
 

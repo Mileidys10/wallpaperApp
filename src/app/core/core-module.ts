@@ -22,7 +22,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 const providers = [Auth, Query, File, NativeToast, Loading, Translate];

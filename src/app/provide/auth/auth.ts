@@ -43,5 +43,10 @@ export class Auth {
       console.log(error);
     }
   }
+
+getCurrentUserUid(): string | null {
+  return this.afb.currentUser ? this.afb.currentUser.uid : null;
+}
+
   
 }

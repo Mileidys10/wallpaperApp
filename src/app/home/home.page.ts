@@ -85,7 +85,7 @@ public openActions() {
 
   
 public goToProfile() {
-    console.log("Go to profile...");
+    this.router.navigate(['/profile']);
   }
 
   public async pickImage() {

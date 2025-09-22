@@ -28,6 +28,28 @@ export class User {
     }
   }
 
+
+
+    public async UpdateUser(name: string, lastName: string){
+    try{
+      const uuid = this.getCurrentuid();
+      await this.querySrv.update('users', uuid!, {
+      name: name,
+      lastName: lastName
+    });
+    return uuid;
+    }catch(error){
+      const errorMsg = this.extractTextInParentheses((error as any).message) || "Error desconocido";
+      throw new Error(errorMsg);
+    }
+  }
+
+  public getCurrentuid(){
+    const uuid = this.authSrv.getCurrentUserUid();
+    return uuid;
+  }
+  
+
   async logIn(email: string, password: string) {
     await this.authSrv.logIn(email, password);
   }
@@ -36,7 +58,10 @@ export class User {
     await this.authSrv.logOut();
   }
 
-
+public extractTextInParentheses(text: string): string | null {
+  const match = text.match(/\((.*?)\)/);
+  return match ? match[1] : null;
+  }
 
 
 }
