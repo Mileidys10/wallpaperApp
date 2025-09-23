@@ -14,10 +14,22 @@
         "BUTTON": "Register"
     },
     "HOME": {
-        "TITLE": "My Wallpaper",
+        "TITLE": "My Wallpapers",
         "ACTIONS": "Actions",
-        "LOCKSCREAN": "Lock screan",
-        "HOMESCREAN": "Home screan",
-        "CANCEL": "Cancel"
+        "LOCKSCREAN": "Lock screen",
+        "HOMESCREAN": "Home screen",
+        "CANCEL": "Cancel",
+        "UPLOADING": "Uploading image...",
+        "IMAGE_UPLOADED": "Image uploaded successfully",
+        "ERROR_UPLOADING": "Error uploading image",
+        "DELETING": "Deleting...",
+        "IMAGE_DELETED": "Image deleted",
+        "ERROR_DELETING": "Error deleting image",
+        "LOGGING_OUT": "Logging out...",
+        "PULL_TO_REFRESH": "Pull to refresh",
+        "REFRESHING": "Refreshing...",
+        "LOADING_IMAGES": "Loading your wallpapers...",
+        "NO_IMAGES": "No wallpapers yet",
+        "NO_IMAGES_DESCRIPTION": "Tap the + button to add your first wallpaper"
     }
 }

@@ -1,17 +1,16 @@
-
 {
     "LOGIN": {
         "EMAIL": "Correo",
         "PASSWORD": "Contraseña",
         "LINK": "¿No tienes una cuenta?",
-        "BUTTON": "Iniciar Sesion"
+        "BUTTON": "Iniciar Sesión"
     },
     "REGISTER": {
         "NAME": "Nombre",
         "LASTNAME": "Apellido",
         "EMAIL": "Correo",
         "PASSWORD": "Contraseña",
-        "LINK": "¿Ya estas registrado?",
+        "LINK": "¿Ya estás registrado?",
         "BUTTON": "Registrar"
     },
     "HOME": {
@@ -19,6 +18,18 @@
         "ACTIONS": "Acciones",
         "LOCKSCREAN": "Pantalla de bloqueo",
         "HOMESCREAN": "Pantalla de inicio",
-        "CANCEL": "Cancelar"
+        "CANCEL": "Cancelar",
+        "UPLOADING": "Subiendo imagen...",
+        "IMAGE_UPLOADED": "Imagen subida correctamente",
+        "ERROR_UPLOADING": "Error al subir la imagen",
+        "DELETING": "Eliminando...",
+        "IMAGE_DELETED": "Imagen eliminada",
+        "ERROR_DELETING": "Error al eliminar la imagen",
+        "LOGGING_OUT": "Cerrando sesión...",
+        "PULL_TO_REFRESH": "Desliza para actualizar",
+        "REFRESHING": "Actualizando...",
+        "LOADING_IMAGES": "Cargando tus fondos de pantalla...",
+        "NO_IMAGES": "Aún no tienes fondos de pantalla",
+        "NO_IMAGES_DESCRIPTION": "Toca el botón + para agregar tu primer fondo de pantalla"
     }
 }

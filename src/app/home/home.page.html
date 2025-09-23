@@ -4,34 +4,63 @@
   </ion-toolbar>
   <ion-toolbar color="dark">
     <ion-title> {{ 'HOME.TITLE' | translate }} </ion-title>
-
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true" class="ion-padding">
-  @if (imgs) {
-  <ion-grid>
-    <ion-row>
-      @for (img of imgs; track $index) {
-      <ion-col size="6">
-        <app-card class="ion-padding" (click)="openActions()" [image]="img"></app-card>
-      </ion-col>
-      }
-    </ion-row>
-  </ion-grid>
-  }
 
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshImages($event)">
+    <ion-refresher-content
+      [pullingText]="'HOME.PULL_TO_REFRESH' | translate"
+      [refreshingText]="'HOME.REFRESHING' | translate">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>{{ 'HOME.LOADING_IMAGES' | translate }}</p>
+  </div>
+
+  <div *ngIf="!isLoading">
+    <div *ngIf="imgs && imgs.length > 0">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6" *ngFor="let img of imgs; let i = index">
+            <app-card 
+              class="ion-padding" 
+              (click)="openActions()" 
+              [image]="img">
+            </app-card>
+            
+            <ion-button 
+              fill="clear" 
+              size="small" 
+              color="danger"
+              (click)="deleteImage(img, i)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div *ngIf="!imgs || imgs.length === 0" class="empty-state">
+      <ion-icon name="image-outline" size="large"></ion-icon>
+      <h2>{{ 'HOME.NO_IMAGES' | translate }}</h2>
+      <p>{{ 'HOME.NO_IMAGES_DESCRIPTION' | translate }}</p>
+    </div>
+  </div>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-     <app-floating-button
-    color="dark"
-    icon="chevron-up-circle"
-    side="top"
-    [buttons]="[
-      { icon: 'log-out-outline', action: 'logout' },
-      { icon: 'add-circle-outline', action: 'add' },
-      { icon: 'person-circle-outline', action: 'profile' },
-    ]"
-    (buttonClick)="onButtonClick($event)"
-    ></app-floating-button>
+    <app-floating-button
+      color="dark"
+      icon="chevron-up-circle"
+      side="top"
+      [buttons]="[
+        { icon: 'log-out-outline', action: 'logout' },
+        { icon: 'add-circle-outline', action: 'add' },
+        { icon: 'person-circle-outline', action: 'profile' },
+      ]"
+      (buttonClick)="onButtonClick($event)">
+    </app-floating-button>
   </ion-fab>
 </ion-content>
