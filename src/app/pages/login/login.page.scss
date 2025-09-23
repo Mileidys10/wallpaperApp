@@ -1,0 +1,49 @@
+ion-content {
+  --background: var(--gradient-primary);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(129, 212, 250, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(79, 195, 247, 0.3) 0%, transparent 50%);
+    pointer-events: none;
+  }
+}
+
+ion-card {
+  position: relative;
+  z-index: 1;
+  
+  ion-card-content {
+    &::before {
+      content: '🔐';
+    }
+  }
+}
+
+.login-title {
+  text-align: center;
+  margin: 60px 0 40px 0;
+  
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #00bcd4 0%, #4fc3f7 50%, #81d4fa 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  
+  p {
+    color: var(--ion-color-medium);
+    font-size: 1.1rem;
+    margin: 0;
+    opacity: 0.9;
+  }
+}

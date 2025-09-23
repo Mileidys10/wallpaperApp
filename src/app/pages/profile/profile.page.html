@@ -1,58 +1,113 @@
-<ion-content>
-  <h2>{{ 'HOME.TITLE' | translate }}</h2>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ 'PROFILE.TITLE' | translate }}</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="goToHome()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-  <ion-card>
-    <ion-card-content>
-      <form [formGroup]="updaterForm" (ngSubmit)="onSubmit()">
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <app-input type="text" [label]="'REGISTER.NAME' | translate" placeholder="Jane"
-                [control]="name"></app-input>
-            </ion-col>
+<ion-content class="profile-content">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshUserData($event)">
+    <ion-refresher-content
+      [pullingText]="'PROFILE.PULL_TO_REFRESH' | translate"
+      [refreshingText]="'PROFILE.REFRESHING' | translate">
+    </ion-refresher-content>
+  </ion-refresher>
 
-            <ion-col>
-              <app-input type="text" [label]="'REGISTER.LASTNAME' | translate" placeholder="Doe"
-                [control]="lastName"></app-input>
-            </ion-col>
-          </ion-row>  
-          <ion-row>
-            <ion-col>
-              <app-button type="submit" color="dark" [disabled]="updaterForm.invalid" value="Update"></app-button>
-            </ion-col>
-            <ion-col>
+  <div class="profile-container">
+    <div *ngIf="isLoading" class="loading-container">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <p>{{ 'PROFILE.LOADING' | translate }}</p>
+    </div>
+
+    <div *ngIf="!isLoading" class="profile-form-container">
+      <div class="avatar-section">
+        <div class="avatar-placeholder">
+          <ion-icon name="person" size="large"></ion-icon>
+        </div>
+        <h2 class="welcome-text">
+          {{ 'PROFILE.WELCOME' | translate }}
+          <span *ngIf="userData?.name">{{ userData.name }}</span>!
+        </h2>
+      </div>
+
+      <ion-card class="profile-card">
+        <ion-card-header>
+          <ion-card-title>{{ 'PROFILE.PERSONAL_INFO' | translate }}</ion-card-title>
+          <ion-card-subtitle>{{ 'PROFILE.UPDATE_INFO' | translate }}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          <form [formGroup]="updaterForm" (ngSubmit)="onSubmit()">
+            <div class="form-fields">
+              <app-input
+                type="text"
+                [label]="'REGISTER.NAME' | translate"
+                placeholder="Jane"
+                [control]="name">
+              </app-input>
+
+              <app-input
+                type="text"
+                [label]="'REGISTER.LASTNAME' | translate"
+                placeholder="Doe"
+                [control]="lastName">
+              </app-input>
+
+              <div class="language-selector">
+                <ion-item lines="none" class="language-item">
+                  <ion-icon name="language" slot="start" color="primary"></ion-icon>
+                  <ion-label>{{ 'PROFILE.LANGUAGE' | translate }}</ion-label>
+                  <ion-select
+                    [value]="currentLang"
+                    (ionChange)="setLang($event.detail.value)"
+                    interface="popover"
+                    placeholder="Select language">
+                    <ion-select-option value="en">🇺🇸 English</ion-select-option>
+                    <ion-select-option value="es">🇪🇸 Español</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </div>
+
+              <div class="action-buttons">
                 <app-button
-                type="submit"
-                   color="dark"
-                    value="Go to Home"
-                    (click)="goToHome()"
-                  ></app-button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-          <ion-item>
-    <ion-label>Language</ion-label>
-    <ion-select [value]="currentLang" (ionChange)="setLang($event.detail.value)">
-      <ion-select-option value="en">English</ion-select-option>
-      <ion-select-option value="es">Español</ion-select-option>
-    </ion-select>
-  </ion-item>
-      </form>
-    </ion-card-content>
-  </ion-card>
+                  type="submit"
+                  color="primary"
+                  [disabled]="updaterForm.invalid"
+                  [value]="'PROFILE.UPDATE_BUTTON' | translate">
+                </app-button>
+
+                <app-button
+                  type="button"
+                  color="light"
+                  [value]="'PROFILE.GO_HOME' | translate"
+                  (click)="goToHome()">
+                </app-button>
+              </div>
+            </div>
+          </form>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stats-card" *ngIf="userData">
+        <ion-card-header>
+          <ion-card-title>{{ 'PROFILE.STATISTICS' | translate }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <ion-icon name="images" color="primary"></ion-icon>
+              <div class="stat-info">
+                <h3>{{ userData.wallpapers?.length || 0 }}</h3>
+                <p>{{ 'PROFILE.WALLPAPERS' | translate }}</p>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

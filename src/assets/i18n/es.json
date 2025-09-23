@@ -31,5 +31,22 @@
         "LOADING_IMAGES": "Cargando tus fondos de pantalla...",
         "NO_IMAGES": "Aún no tienes fondos de pantalla",
         "NO_IMAGES_DESCRIPTION": "Toca el botón + para agregar tu primer fondo de pantalla"
+    },
+    "PROFILE": {
+        "TITLE": "Mi Perfil",
+        "WELCOME": "Bienvenido",
+        "PERSONAL_INFO": "Información Personal",
+        "UPDATE_INFO": "Actualiza tus datos personales",
+        "LANGUAGE": "Idioma",
+        "UPDATE_BUTTON": "Actualizar Perfil",
+        "GO_HOME": "Ir al Inicio",
+        "STATISTICS": "Estadísticas",
+        "WALLPAPERS": "Fondos de Pantalla",
+        "LOADING": "Cargando perfil...",
+        "UPDATING": "Actualizando perfil...",
+        "UPDATE_SUCCESS": "Perfil actualizado correctamente",
+        "UPDATE_ERROR": "Error al actualizar el perfil",
+        "PULL_TO_REFRESH": "Desliza para actualizar",
+        "REFRESHING": "Actualizando..."
     }
 }

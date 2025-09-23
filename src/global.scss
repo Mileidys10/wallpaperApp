@@ -1,37 +1,313 @@
 /*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
+ * App Global CSS - Tema Celeste
  */
 
-/* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
 
-/* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
 
-/* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-/*@import "@ionic/angular/css/palettes/dark.system.css";*/
+
+:root {
+  /* Colores principales celestes */
+  --ion-color-primary: #00bcd4;
+  --ion-color-primary-rgb: 0, 188, 212;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #00a5bb;
+  --ion-color-primary-tint: #1ac3d8;
+
+  /* Colores secundarios */
+  --ion-color-secondary: #4fc3f7;
+  --ion-color-secondary-rgb: 79, 195, 247;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #46aadc;
+  --ion-color-secondary-tint: #61c9f8;
+
+  /* Colores de acento */
+  --ion-color-tertiary: #81d4fa;
+  --ion-color-tertiary-rgb: 129, 212, 250;
+  --ion-color-tertiary-contrast: #000000;
+  --ion-color-tertiary-contrast-rgb: 0, 0, 0;
+  --ion-color-tertiary-shade: #72badc;
+  --ion-color-tertiary-tint: #8ed8fb;
+
+  /* Colores de éxito (verde-celeste) */
+  --ion-color-success: #26c6da;
+  --ion-color-success-rgb: 38, 198, 218;
+  --ion-color-success-contrast: #000000;
+  --ion-color-success-contrast-rgb: 0, 0, 0;
+  --ion-color-success-shade: #22aec0;
+  --ion-color-success-tint: #3cccde;
+
+  /* Colores de advertencia */
+  --ion-color-warning: #ffb74d;
+  --ion-color-warning-rgb: 255, 183, 77;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #e0a144;
+  --ion-color-warning-tint: #ffc05f;
+
+  /* Colores de peligro */
+  --ion-color-danger: #f06292;
+  --ion-color-danger-rgb: 240, 98, 146;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #d35680;
+  --ion-color-danger-tint: #f2719d;
+
+  /* Colores neutros con toque celeste */
+  --ion-color-light: #e0f2f1;
+  --ion-color-light-rgb: 224, 242, 241;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #c5d5d4;
+  --ion-color-light-tint: #e3f4f3;
+
+  --ion-color-medium: #80cbc4;
+  --ion-color-medium-rgb: 128, 203, 196;
+  --ion-color-medium-contrast: #000000;
+  --ion-color-medium-contrast-rgb: 0, 0, 0;
+  --ion-color-medium-shade: #71b3ad;
+  --ion-color-medium-tint: #8dd1ca;
+
+  --ion-color-dark: #004d5c;
+  --ion-color-dark-rgb: 0, 77, 92;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #004451;
+  --ion-color-dark-tint: #1a606c;
+
+  /* Gradientes celestes */
+  --gradient-primary: linear-gradient(135deg, #00bcd4 0%, #4fc3f7 100%);
+  --gradient-secondary: linear-gradient(135deg, #4fc3f7 0%, #81d4fa 100%);
+  --gradient-light: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+
+  /* Sombras con toque celeste */
+  --shadow-light: 0 2px 8px rgba(0, 188, 212, 0.1);
+  --shadow-medium: 0 4px 16px rgba(0, 188, 212, 0.15);
+  --shadow-strong: 0 8px 32px rgba(0, 188, 212, 0.2);
+}
+
+
+
+ion-app {
+  background: var(--gradient-light);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Toolbars y headers */
+ion-toolbar {
+  --background: var(--gradient-primary);
+  --color: white;
+  
+  ion-title {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+}
+
+/* Cards con estilo celeste */
+ion-card {
+  --background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  box-shadow: var(--shadow-medium);
+  border: 1px solid rgba(0, 188, 212, 0.1);
+  backdrop-filter: blur(10px);
+  margin: 16px;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-strong);
+    transition: all 0.3s ease;
+  }
+}
+
+ion-card-header {
+  ion-card-title {
+    color: var(--ion-color-dark);
+    font-weight: 700;
+    font-size: 1.4rem;
+  }
+  
+  ion-card-subtitle {
+    color: var(--ion-color-medium);
+    font-weight: 500;
+  }
+}
+
+/* Botones con estilo celeste */
+ion-button {
+  --border-radius: 12px;
+  --padding-start: 24px;
+  --padding-end: 24px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  
+  &[color="primary"] {
+    --background: var(--gradient-primary);
+    --box-shadow: var(--shadow-medium);
+    
+    &:hover {
+      --box-shadow: var(--shadow-strong);
+      transform: translateY(-1px);
+    }
+  }
+  
+  &[color="light"] {
+    --background: var(--ion-color-light);
+    --color: var(--ion-color-dark);
+    border: 2px solid var(--ion-color-primary);
+  }
+}
+
+/* Inputs con estilo celeste */
+ion-input {
+  --background: rgba(255, 255, 255, 0.8);
+  --color: var(--ion-color-dark);
+  --border-radius: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  
+  &.has-focus {
+    --background: rgba(255, 255, 255, 1);
+    border-color: var(--ion-color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1);
+  }
+}
+
+/* Floating Action Buttons */
+ion-fab-button {
+  --background: var(--gradient-primary);
+  --box-shadow: var(--shadow-strong);
+  
+  &:hover {
+    --box-shadow: 0 8px 40px rgba(0, 188, 212, 0.3);
+    transform: scale(1.05);
+  }
+}
+
+/* Loading y spinners */
+ion-spinner {
+  --color: var(--ion-color-primary);
+}
+
+/* Items y listas */
+ion-item {
+  --background: rgba(255, 255, 255, 0.7);
+  --border-color: rgba(0, 188, 212, 0.1);
+  --inner-padding-start: 16px;
+  --inner-padding-end: 16px;
+  border-radius: 12px;
+  margin: 8px 0;
+  
+  ion-icon {
+    color: var(--ion-color-primary);
+  }
+}
+
+/* Refresher */
+ion-refresher-content {
+  --color: var(--ion-color-primary);
+}
+
+
+
+.gradient-bg {
+  background: var(--gradient-primary);
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.text-gradient {
+  background: var(--gradient-primary);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.shadow-soft {
+  box-shadow: var(--shadow-light);
+}
+
+.shadow-medium {
+  box-shadow: var(--shadow-medium);
+}
+
+.shadow-strong {
+  box-shadow: var(--shadow-strong);
+}
+
+/* Animaciones suaves */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+
+@media (max-width: 768px) {
+  ion-card {
+    margin: 8px;
+    border-radius: 12px;
+  }
+  
+  ion-button {
+    --padding-start: 16px;
+    --padding-end: 16px;
+  }
+}
+
+/* Dark mode (opcional) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ion-color-light: #1a1a2e;
+    --ion-color-light-rgb: 26, 26, 46;
+    --ion-background-color: #0f0f23;
+  }
+  
+  ion-card {
+    --background: rgba(26, 26, 46, 0.95);
+    border: 1px solid rgba(79, 195, 247, 0.2);
+  }
+}

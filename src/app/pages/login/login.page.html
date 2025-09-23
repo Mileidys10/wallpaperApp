@@ -1,57 +1,66 @@
 <ion-content>
+  <div class="auth-background"></div>
+  
+  <div class="login-title">
+    <h1>¡Bienvenido!</h1>
+    <p>Inicia sesión para continuar</p>
+  </div>
+
   <ion-card>
     <ion-card-content>
-      <form
-      [formGroup]="loginForm">
+      <form [formGroup]="loginForm">
         <ion-grid>
           <ion-row>
             <ion-col>
               <app-input
-              type="email"
-              [label]="'LOGIN.EMAIL' | translate"
-
-              placeholder="jane@doe.com"
-              [control]="email"
-              ></app-input>
+                type="email"
+                [label]="'LOGIN.EMAIL' | translate"
+                placeholder="jane@doe.com"
+                [control]="email">
+              </app-input>
             </ion-col>
           </ion-row>
+          
           <ion-row>
             <ion-col>
               <app-input
-              type="password"
-              [label]="'LOGIN.PASSWORD' | translate"
-              placeholder="**************"
-              [control]="password"
-              ></app-input>
+                type="password"
+                [label]="'LOGIN.PASSWORD' | translate"
+                placeholder="**************"
+                [control]="password">
+              </app-input>
             </ion-col>
           </ion-row>
-               <ion-row>
-            <ion-col size="4">
+          
+          <ion-row>
+            <ion-col size="12">
               <app-toggle-translate
-              [(value)]="language"
-              left="🇺🇸"
-              rigth="🇨🇴"
-              (valueChange)="changeLang($event)"
-              ></app-toggle-translate>
+                [(value)]="language"
+                left="🇺🇸"
+                rigth="🇨🇴"
+                (valueChange)="changeLang($event)">
+              </app-toggle-translate>
             </ion-col>
           </ion-row>
+          
           <ion-row>
             <ion-col>
-           <app-link
-              link="/register"
-              [value]="'LOGIN.LINK' | translate"
-              ></app-link>            </ion-col>
+              <app-link
+                link="/register"
+                [value]="'LOGIN.LINK' | translate">
+              </app-link>
+            </ion-col>
           </ion-row>
+          
           <ion-row>
             <ion-col>
               <app-button
-              type="submit"
-              color="dark"
-              [disabled]="loginForm.invalid"
-              [value]="'LOGIN.BUTTON' | translate"
-
-              (click)="logIn()"
-              ></app-button>
+                type="submit"
+                color="primary"
+                [disabled]="loginForm.invalid"
+                [value]="'LOGIN.BUTTON' | translate"
+                (click)="logIn()">
+              </app-button>
             </ion-col>
           </ion-row>
         </ion-grid>

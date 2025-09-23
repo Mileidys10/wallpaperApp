@@ -31,5 +31,22 @@
         "LOADING_IMAGES": "Loading your wallpapers...",
         "NO_IMAGES": "No wallpapers yet",
         "NO_IMAGES_DESCRIPTION": "Tap the + button to add your first wallpaper"
+    },
+    "PROFILE": {
+        "TITLE": "My Profile",
+        "WELCOME": "Welcome",
+        "PERSONAL_INFO": "Personal Information",
+        "UPDATE_INFO": "Update your personal details",
+        "LANGUAGE": "Language",
+        "UPDATE_BUTTON": "Update Profile",
+        "GO_HOME": "Go to Home",
+        "STATISTICS": "Statistics",
+        "WALLPAPERS": "Wallpapers",
+        "LOADING": "Loading profile...",
+        "UPDATING": "Updating profile...",
+        "UPDATE_SUCCESS": "Profile updated successfully",
+        "UPDATE_ERROR": "Error updating profile",
+        "PULL_TO_REFRESH": "Pull to refresh",
+        "REFRESHING": "Refreshing..."
     }
 }

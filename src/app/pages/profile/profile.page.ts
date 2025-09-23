@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Translate } from 'src/app/core/providers/translator/translate';
-import { TranslateModule } from '@ngx-translate/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/services/user/user';
 import { Router } from '@angular/router';
 import { NativeToast } from 'src/app/core/providers/nativeToast/native-toast';
+import { Loading } from 'src/app/core/providers/loading/loading';
 
 @Component({
   selector: 'app-profile',
@@ -14,17 +14,45 @@ import { NativeToast } from 'src/app/core/providers/nativeToast/native-toast';
 })
 export class ProfilePage implements OnInit {
   currentLang = 'en';
-    public name !: FormControl;
-  public lastName !: FormControl;
-  public updaterForm !: FormGroup;
+  public name!: FormControl;
+  public lastName!: FormControl;
+  public updaterForm!: FormGroup;
+  public isLoading = false;
+  public userData: any = null;
 
-  constructor(private translateSrv: Translate,private userSrv: User,
-    private readonly router: Router, private readonly toast: NativeToast) { 
-          this.initForm();
+  constructor(
+    private translateSrv: Translate,
+    private userSrv: User,
+    private readonly router: Router,
+    private readonly toast: NativeToast,
+    private loadingSrv: Loading
+  ) {
+    this.initForm();
+  }
 
+  async ngOnInit() {
+    this.currentLang = this.translateSrv.getCurrentLang();
+    await this.loadUserData();
+  }
+
+  private async loadUserData() {
+    try {
+      this.isLoading = true;
+      this.userData = await this.userSrv.getUserData();
+      
+      if (this.userData) {
+        this.name.setValue(this.userData.name || '');
+        this.lastName.setValue(this.userData.lastName || '');
+      }
+    } catch (error) {
+      console.error('Error loading user data:', error);
+      await this.toast.show('Error cargando datos del usuario');
+    } finally {
+      this.isLoading = false;
     }
- 
-private initForm(){
+  }
+
+  private initForm() {
     this.name = new FormControl('', [Validators.required]);
     this.lastName = new FormControl('', [Validators.required]);
     this.updaterForm = new FormGroup({
@@ -33,29 +61,48 @@ private initForm(){
     });
   }
 
+  public async onSubmit() {
+    if (this.updaterForm.invalid) {
+      await this.toast.show('Por favor completa todos los campos');
+      return;
+    }
 
-public async onSubmit(){
-    try{
+    try {
+      await this.loadingSrv.present({
+        msg: this.translateSrv.instant('PROFILE.UPDATING') || 'Actualizando perfil...'
+      });
+
       await this.userSrv.UpdateUser(this.name.value, this.lastName.value);
-      this.router.navigate(['/home']);
-      this.toast.show("Updater successful");
-    }catch(error){
-      this.toast.show(((error as any).message) || "Update failed");
-    } 
+      
+      await this.toast.show(
+        this.translateSrv.instant('PROFILE.UPDATE_SUCCESS') || 'Perfil actualizado correctamente'
+      );
+      
+      await this.loadUserData();
+      
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      await this.toast.show(
+        this.translateSrv.instant('PROFILE.UPDATE_ERROR') || 'Error al actualizar el perfil'
+      );
+    } finally {
+      await this.loadingSrv.dimiss();
+    }
   }
 
-  public goToHome(){
+  public goToHome() {
     this.router.navigate(['/home']);
   }
 
-
-  ngOnInit() {
-
-        this.currentLang = this.translateSrv.getCurrentLang();
-
-  }
- setLang(lang: string) {
+  public setLang(lang: string) {
     this.translateSrv.useLang(lang);
     this.currentLang = lang;
+  }
+
+  public async refreshUserData(event?: any) {
+    await this.loadUserData();
+    if (event) {
+      event.target.complete();
+    }
   }
 }
