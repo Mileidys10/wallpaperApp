@@ -8,6 +8,9 @@ import { ActionSheet } from '../core/providers/actionSheet/action-sheet';
 import { Loading } from '../core/providers/loading/loading';
 import { Translate } from '../core/providers/translator/translate';
 import { NativeToast } from '../core/providers/nativeToast/native-toast';
+import {  WallpaperType } from '../services/wallpaper/wallpaper-service';
+import { Capacitor } from '@capacitor/core';
+import { WallpaperService } from '../services/wallpaper/wallpaper-service';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +22,7 @@ export class HomePage implements OnInit {
   public image!: IImage;
   public imgs: string[] = [];
   public isLoading = false;
+  public selectedImageUrl = '';
 
   constructor(
     private readonly fileSrv: File,
@@ -28,7 +32,8 @@ export class HomePage implements OnInit {
     private actionSheetSrv: ActionSheet,
     private loadingSrv: Loading,
     private translateSrv: Translate,
-    private nativeToast: NativeToast
+    private nativeToast: NativeToast,
+    private wallpaperSrv: WallpaperService
   ) {}
 
   async ngOnInit() {
@@ -66,109 +71,77 @@ export class HomePage implements OnInit {
         console.warn('Action not found: ', action);
     }
   }
+  goToProfile() {
+    throw new Error('Method not implemented.');
+  }
+  pickImage() {
+    throw new Error('Method not implemented.');
+  }
+  logOut() {
+    throw new Error('Method not implemented.');
+  }
 
-  public openActions() {
+  public openActions(imageUrl?: string) {
+    if (imageUrl) {
+      this.selectedImageUrl = imageUrl;
+    }
+
+    const buttons = [
+      {
+        text: this.translateSrv.instant('HOME.SET_HOME_WALLPAPER') || 'Set as Home Wallpaper',
+        icon: 'home-outline',
+        handler: () => this.setWallpaper(WallpaperType.HOME_SCREEN),
+      },
+      {
+        text: this.translateSrv.instant('HOME.SET_LOCK_WALLPAPER') || 'Set as Lock Wallpaper',
+        icon: 'lock-closed-outline',
+        handler: () => this.setWallpaper(WallpaperType.LOCK_SCREEN),
+      },
+      {
+        text: this.translateSrv.instant('HOME.SET_BOTH_WALLPAPER') || 'Set as Both Wallpapers',
+        icon: 'phone-portrait-outline',
+        handler: () => this.setWallpaper(WallpaperType.BOTH),
+      },
+      {
+        text: this.translateSrv.instant('HOME.CANCEL') || 'Cancel',
+        role: 'cancel',
+        icon: 'close-outline'
+      },
+    ];
+
     this.actionSheetSrv.present(
-      this.translateSrv.instant('HOME.ACTIONS'),
-      [
-        {
-          text: this.translateSrv.instant('HOME.LOCKSCREAN'),
-          handler: () => console.log('Putting lock screen...'),
-        },
-        {
-          text: this.translateSrv.instant('HOME.HOMESCREAN'),
-          handler: () => console.log('Putting home screen...'),
-        },
-        {
-          text: this.translateSrv.instant('HOME.CANCEL'),
-          role: 'cancel'
-        },
-      ]
+      this.translateSrv.instant('HOME.WALLPAPER_ACTIONS') || 'Wallpaper Actions',
+      buttons
     );
   }
 
-  public goToProfile() {
-    this.router.navigate(['/profile']);
-  }
+  private async setWallpaper(type: WallpaperType) {
+    if (!this.selectedImageUrl) {
+      await this.nativeToast.show(
+        this.translateSrv.instant('HOME.NO_IMAGE_SELECTED') || 'No image selected'
+      );
+      return;
+    }
 
-  public async pickImage() {
     try {
       await this.loadingSrv.present({
-        msg: this.translateSrv.instant('HOME.UPLOADING') || 'Subiendo imagen...'
+        msg: this.translateSrv.instant('HOME.SETTING_WALLPAPER') || 'Setting wallpaper...'
       });
 
-      this.image = await this.fileSrv.pickImage();
+      const imagePath = await this.wallpaperSrv.prepareImagePath(this.selectedImageUrl);
       
-      const path = await this.uploaderSrv.upload(
-        "images",
-        `${Date.now()}-${this.image.name}`,
-        this.image.mimeType,
-        this.image.data
-      );
-
-      const imageUrl = await this.uploaderSrv.getUrl("images", path);
-
-      await this.userSrv.addWallpaper(path, imageUrl);
-
-      this.imgs = [imageUrl, ...this.imgs];
-
-      await this.nativeToast.show(
-        this.translateSrv.instant('HOME.IMAGE_UPLOADED') || 'Imagen subida correctamente'
-      );
-
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      await this.nativeToast.show(
-        this.translateSrv.instant('HOME.ERROR_UPLOADING') || 'Error al subir la imagen'
-      );
-    } finally {
-      await this.loadingSrv.dimiss();
-    }
-  }
-
-  public async deleteImage(imageUrl: string, index: number) {
-    try {
-      await this.loadingSrv.present({
-        msg: this.translateSrv.instant('HOME.DELETING') || 'Eliminando...'
-      });
-
-      await this.userSrv.removeWallpaper(imageUrl);
-
-      this.imgs.splice(index, 1);
-
-      await this.nativeToast.show(
-        this.translateSrv.instant('HOME.IMAGE_DELETED') || 'Imagen eliminada'
-      );
-
-    } catch (error) {
-      console.error('Error deleting image:', error);
-      await this.nativeToast.show(
-        this.translateSrv.instant('HOME.ERROR_DELETING') || 'Error al eliminar la imagen'
-      );
-    } finally {
-      await this.loadingSrv.dimiss();
-    }
-  }
-
-  public async logOut() {
-    try {
-      await this.loadingSrv.present({
-        msg: this.translateSrv.instant('HOME.LOGGING_OUT') || 'Cerrando sesión...'
-      });
+      const success = await this.wallpaperSrv.setWallpaper(imagePath, type);
       
-      await this.userSrv.logOut();
-      this.router.navigate(['/']);
+      
+
     } catch (error) {
-      console.error('Error logging out:', error);
+      console.error('Error setting wallpaper:', error);
+      await this.nativeToast.show(
+        this.translateSrv.instant('HOME.WALLPAPER_ERROR') || 'Error setting wallpaper'
+      );
     } finally {
       await this.loadingSrv.dimiss();
-    }
-  }
-
-  public async refreshImages(event?: any) {
-    await this.loadUserWallpapers();
-    if (event) {
-      event.target.complete();
+      this.selectedImageUrl = ''; 
     }
   }
 }

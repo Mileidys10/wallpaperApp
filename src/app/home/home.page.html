@@ -26,18 +26,30 @@
         <ion-row>
           <ion-col size="6" *ngFor="let img of imgs; let i = index">
             <app-card 
-              class="ion-padding" 
-              (click)="openActions()" 
+              class="ion-padding image-card" 
+              (click)="openActions(img)" 
               [image]="img">
             </app-card>
             
-            <ion-button 
-              fill="clear" 
-              size="small" 
-              color="danger"
-              (click)="deleteImage(img, i)">
-              <ion-icon name="trash-outline"></ion-icon>
-            </ion-button>
+            <div class="image-actions">
+              <ion-button 
+                fill="clear" 
+                size="small" 
+                color="primary"
+                class="wallpaper-btn"
+                (click)="openActions(img); $event.stopPropagation()">
+                <ion-icon name="phone-portrait-outline"></ion-icon>
+              </ion-button>
+              
+              <ion-button 
+                fill="clear" 
+                size="small" 
+                color="danger"
+                class="delete-btn"
+                (click)="deleteImage(img, i); $event.stopPropagation()">
+                <ion-icon name="trash-outline"></ion-icon>
+              </ion-button>
+            </div>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -47,6 +59,15 @@
       <ion-icon name="image-outline" size="large"></ion-icon>
       <h2>{{ 'HOME.NO_IMAGES' | translate }}</h2>
       <p>{{ 'HOME.NO_IMAGES_DESCRIPTION' | translate }}</p>
+      
+      <ion-button 
+        color="primary" 
+        size="default"
+        class="add-first-image"
+        (click)="pickImage()">
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        {{ 'HOME.ADD_FIRST_WALLPAPER' | translate }}
+      </ion-button>
     </div>
   </div>
 

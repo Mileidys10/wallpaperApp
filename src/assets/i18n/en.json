@@ -16,9 +16,14 @@
     "HOME": {
         "TITLE": "My Wallpapers",
         "ACTIONS": "Actions",
-        "LOCKSCREAN": "Lock screen",
-        "HOMESCREAN": "Home screen",
+        "WALLPAPER_ACTIONS": "Wallpaper Options",
+        "SET_HOME_WALLPAPER": "Set as Home Screen",
+        "SET_LOCK_WALLPAPER": "Set as Lock Screen",
+        "SET_BOTH_WALLPAPER": "Set for Both Screens",
         "CANCEL": "Cancel",
+        "NO_IMAGE_SELECTED": "No image selected",
+        "SETTING_WALLPAPER": "Setting wallpaper...",
+        "WALLPAPER_ERROR": "Error setting wallpaper",
         "UPLOADING": "Uploading image...",
         "IMAGE_UPLOADED": "Image uploaded successfully",
         "ERROR_UPLOADING": "Error uploading image",
@@ -30,7 +35,8 @@
         "REFRESHING": "Refreshing...",
         "LOADING_IMAGES": "Loading your wallpapers...",
         "NO_IMAGES": "No wallpapers yet",
-        "NO_IMAGES_DESCRIPTION": "Tap the + button to add your first wallpaper"
+        "NO_IMAGES_DESCRIPTION": "Tap the + button to add your first wallpaper",
+        "ADD_FIRST_WALLPAPER": "Add Your First Wallpaper"
     },
     "PROFILE": {
         "TITLE": "My Profile",
@@ -48,5 +54,14 @@
         "UPDATE_ERROR": "Error updating profile",
         "PULL_TO_REFRESH": "Pull to refresh",
         "REFRESHING": "Refreshing..."
+    },
+    "WALLPAPER": {
+        "NOT_SUPPORTED_WEB": "Setting wallpaper is not supported in web browsers",
+        "PERMISSION_DENIED": "Permission denied to set wallpaper",
+        "SUCCESS": "Wallpaper set successfully",
+        "ERROR": "Error setting wallpaper",
+        "UNEXPECTED_ERROR": "An unexpected error occurred",
+        "IOS_HELP": "Image saved to Photos. Go to Settings > Wallpaper > Choose New Wallpaper > All Photos to set it manually.",
+        "ANDROID_HELP": "Wallpaper should be set automatically on Android devices."
     }
 }

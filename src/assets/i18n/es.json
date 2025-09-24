@@ -16,9 +16,14 @@
     "HOME": {
         "TITLE": "Mis Fondos de Pantalla",
         "ACTIONS": "Acciones",
-        "LOCKSCREAN": "Pantalla de bloqueo",
-        "HOMESCREAN": "Pantalla de inicio",
+        "WALLPAPER_ACTIONS": "Opciones de Fondo",
+        "SET_HOME_WALLPAPER": "Establecer como Fondo de Inicio",
+        "SET_LOCK_WALLPAPER": "Establecer como Fondo de Bloqueo",
+        "SET_BOTH_WALLPAPER": "Establecer para Ambas Pantallas",
         "CANCEL": "Cancelar",
+        "NO_IMAGE_SELECTED": "No hay imagen seleccionada",
+        "SETTING_WALLPAPER": "Estableciendo fondo de pantalla...",
+        "WALLPAPER_ERROR": "Error al establecer el fondo de pantalla",
         "UPLOADING": "Subiendo imagen...",
         "IMAGE_UPLOADED": "Imagen subida correctamente",
         "ERROR_UPLOADING": "Error al subir la imagen",
@@ -30,7 +35,8 @@
         "REFRESHING": "Actualizando...",
         "LOADING_IMAGES": "Cargando tus fondos de pantalla...",
         "NO_IMAGES": "Aún no tienes fondos de pantalla",
-        "NO_IMAGES_DESCRIPTION": "Toca el botón + para agregar tu primer fondo de pantalla"
+        "NO_IMAGES_DESCRIPTION": "Toca el botón + para agregar tu primer fondo de pantalla",
+        "ADD_FIRST_WALLPAPER": "Agregar Tu Primer Fondo de Pantalla"
     },
     "PROFILE": {
         "TITLE": "Mi Perfil",
@@ -48,5 +54,14 @@
         "UPDATE_ERROR": "Error al actualizar el perfil",
         "PULL_TO_REFRESH": "Desliza para actualizar",
         "REFRESHING": "Actualizando..."
+    },
+    "WALLPAPER": {
+        "NOT_SUPPORTED_WEB": "Establecer fondo de pantalla no es compatible con navegadores web",
+        "PERMISSION_DENIED": "Permiso denegado para establecer fondo de pantalla",
+        "SUCCESS": "Fondo de pantalla establecido exitosamente",
+        "ERROR": "Error al establecer el fondo de pantalla",
+        "UNEXPECTED_ERROR": "Ocurrió un error inesperado",
+        "IOS_HELP": "Imagen guardada en Fotos. Ve a Configuración > Fondo de Pantalla > Elegir Nuevo Fondo > Todas las Fotos para establecerlo manualmente.",
+        "ANDROID_HELP": "El fondo de pantalla debería establecerse automáticamente en dispositivos Android."
     }
 }
