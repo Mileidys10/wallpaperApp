@@ -20,28 +20,18 @@ export class WallpaperService {
     private translateSrv: Translate
   ) {}
 
-  /**
-   * Establece una imagen como wallpaper
-   */
+  
   async setWallpaper(imagePath: string, type: WallpaperType): Promise<boolean> {
     try {
-      // Verificar si es plataforma nativa
-      if (!Capacitor.isNativePlatform()) {
-        await this.nativeToast.show(
-          this.translateSrv.instant('WALLPAPER.NOT_SUPPORTED_WEB') || 
-          'Setting wallpaper is not supported in web browsers'
-        );
-        return false;
-      }
+      
 
-      // Verificar permisos primero
       const hasPermission = await this.checkPermissions();
       if (!hasPermission) {
         const granted = await this.requestPermissions();
         if (!granted) {
           await this.nativeToast.show(
             this.translateSrv.instant('WALLPAPER.PERMISSION_DENIED') || 
-            'Permission denied to set wallpaper'
+            'Permiso denegado para establecer fondo de pantalla'
           );
           return false;
         }
@@ -60,21 +50,21 @@ export class WallpaperService {
           result = await Wallpaper.setBothWallpaper({ imagePath });
           break;
         default:
-          throw new Error('Invalid wallpaper type');
+          throw new Error('Tipo de wallpaper inválido');
       }
 
       if (result.success) {
         await this.nativeToast.show(
           result.message || 
           this.translateSrv.instant('WALLPAPER.SUCCESS') || 
-          'Wallpaper set successfully'
+          'Fondo de pantalla establecido correctamente'
         );
         return true;
       } else {
         await this.nativeToast.show(
           result.message || 
           this.translateSrv.instant('WALLPAPER.ERROR') || 
-          'Error setting wallpaper'
+          'Error al establecer el fondo de pantalla'
         );
         return false;
       }
@@ -83,38 +73,32 @@ export class WallpaperService {
       console.error('Error setting wallpaper:', error);
       await this.nativeToast.show(
         this.translateSrv.instant('WALLPAPER.UNEXPECTED_ERROR') || 
-        'Unexpected error occurred'
+        'Ocurrió un error inesperado'
       );
       return false;
     }
   }
 
-  /**
-   * Establece wallpaper para pantalla de inicio
-   */
+ 
   async setHomeScreenWallpaper(imagePath: string): Promise<boolean> {
     return this.setWallpaper(imagePath, WallpaperType.HOME_SCREEN);
   }
 
-  /**
-   * Establece wallpaper para pantalla de bloqueo
-   */
+  
   async setLockScreenWallpaper(imagePath: string): Promise<boolean> {
     return this.setWallpaper(imagePath, WallpaperType.LOCK_SCREEN);
   }
 
-  /**
-   * Establece wallpaper para ambas pantallas
-   */
+  
   async setBothWallpaper(imagePath: string): Promise<boolean> {
     return this.setWallpaper(imagePath, WallpaperType.BOTH);
   }
 
-  /**
-   * Verifica si la app tiene permisos para establecer wallpapers
-   */
+
   async checkPermissions(): Promise<boolean> {
     try {
+      if (!Capacitor.isNativePlatform()) return false;
+      
       const result = await Wallpaper.checkPermissions();
       return result.granted;
     } catch (error) {
@@ -123,11 +107,11 @@ export class WallpaperService {
     }
   }
 
-  /**
-   * Solicita permisos para establecer wallpapers
-   */
+  
   async requestPermissions(): Promise<boolean> {
     try {
+      if (!Capacitor.isNativePlatform()) return false;
+      
       const result = await Wallpaper.requestPermissions();
       return result.granted;
     } catch (error) {
@@ -136,18 +120,19 @@ export class WallpaperService {
     }
   }
 
-  /**
-   * Convierte una URL de imagen a un path local (si es necesario)
-   */
+  
   async prepareImagePath(imageUrl: string): Promise<string> {
-    // Si ya es un path local, devolverlo tal como está
     if (imageUrl.startsWith('file://') || imageUrl.startsWith('/')) {
       return imageUrl;
     }
 
-    // Si es una URL HTTP, podríamos necesitar descargarla primero
-    // Para este ejemplo, asumimos que las imágenes ya están almacenadas localmente
-    // o que el plugin puede manejar URLs remotas
+    
     return imageUrl;
+  }
+
+ 
+  getPlatformInfo(): string {
+    const platform = Capacitor.getPlatform();
+    return `Plataforma: ${platform}, Nativa: ${Capacitor.isNativePlatform()}`;
   }
 }

@@ -8,19 +8,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.annotation.Permission;
-
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 @CapacitorPlugin(
   name = "Wallpaper",
@@ -30,25 +28,129 @@ import java.net.URL;
 )
 public class WallpaperPlugin extends Plugin {
 
-  private static final String PERMISSION_DENIED = "PERMISSION_DENIED";
+  private static final String PERMISSION_DENIED = "Permission denied to set wallpaper";
+  private static final String WALLPAPER_SET_ERROR = "Error setting wallpaper";
+  private static final String INVALID_IMAGE_PATH = "Invalid image path";
 
   @PluginMethod
   public void setHomeScreenWallpaper(PluginCall call) {
-    setWallpaperInternal(call, "home");
+    String imagePath = call.getString("imagePath");
+    if (imagePath == null || imagePath.isEmpty()) {
+      call.reject(INVALID_IMAGE_PATH);
+      return;
+    }
+
+    if (!hasWallpaperPermission()) {
+      call.reject(PERMISSION_DENIED);
+      return;
+    }
+
+    try {
+      Bitmap bitmap = loadBitmapFromPath(imagePath);
+      if (bitmap == null) {
+        call.reject("Failed to load image from path: " + imagePath);
+        return;
+      }
+
+      WallpaperManager wallpaperManager = WallpaperManager.getInstance(getContext());
+
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_SYSTEM);
+      } else {
+        wallpaperManager.setBitmap(bitmap);
+      }
+
+      JSObject ret = new JSObject();
+      ret.put("success", true);
+      ret.put("message", "Home screen wallpaper set successfully");
+      call.resolve(ret);
+
+    } catch (IOException e) {
+      call.reject(WALLPAPER_SET_ERROR + ": " + e.getMessage());
+    } catch (Exception e) {
+      call.reject("Unexpected error: " + e.getMessage());
+    }
   }
 
   @PluginMethod
   public void setLockScreenWallpaper(PluginCall call) {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-      call.reject("Lock screen wallpaper requires Android 7.0 or higher");
+    String imagePath = call.getString("imagePath");
+    if (imagePath == null || imagePath.isEmpty()) {
+      call.reject(INVALID_IMAGE_PATH);
       return;
     }
-    setWallpaperInternal(call, "lock");
+
+    if (!hasWallpaperPermission()) {
+      call.reject(PERMISSION_DENIED);
+      return;
+    }
+
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+      call.reject("Lock screen wallpaper is only supported on Android 7.0 (API 24) and above");
+      return;
+    }
+
+    try {
+      Bitmap bitmap = loadBitmapFromPath(imagePath);
+      if (bitmap == null) {
+        call.reject("Failed to load image from path: " + imagePath);
+        return;
+      }
+
+      WallpaperManager wallpaperManager = WallpaperManager.getInstance(getContext());
+      wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK);
+
+      JSObject ret = new JSObject();
+      ret.put("success", true);
+      ret.put("message", "Lock screen wallpaper set successfully");
+      call.resolve(ret);
+
+    } catch (IOException e) {
+      call.reject(WALLPAPER_SET_ERROR + ": " + e.getMessage());
+    } catch (Exception e) {
+      call.reject("Unexpected error: " + e.getMessage());
+    }
   }
 
   @PluginMethod
   public void setBothWallpaper(PluginCall call) {
-    setWallpaperInternal(call, "both");
+    String imagePath = call.getString("imagePath");
+    if (imagePath == null || imagePath.isEmpty()) {
+      call.reject(INVALID_IMAGE_PATH);
+      return;
+    }
+
+    if (!hasWallpaperPermission()) {
+      call.reject(PERMISSION_DENIED);
+      return;
+    }
+
+    try {
+      Bitmap bitmap = loadBitmapFromPath(imagePath);
+      if (bitmap == null) {
+        call.reject("Failed to load image from path: " + imagePath);
+        return;
+      }
+
+      WallpaperManager wallpaperManager = WallpaperManager.getInstance(getContext());
+
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        wallpaperManager.setBitmap(bitmap, null, true,
+          WallpaperManager.FLAG_SYSTEM | WallpaperManager.FLAG_LOCK);
+      } else {
+        wallpaperManager.setBitmap(bitmap);
+      }
+
+      JSObject ret = new JSObject();
+      ret.put("success", true);
+      ret.put("message", "Wallpaper set for both home and lock screen successfully");
+      call.resolve(ret);
+
+    } catch (IOException e) {
+      call.reject(WALLPAPER_SET_ERROR + ": " + e.getMessage());
+    } catch (Exception e) {
+      call.reject("Unexpected error: " + e.getMessage());
+    }
   }
 
   @PluginMethod
@@ -65,108 +167,8 @@ public class WallpaperPlugin extends Plugin {
       ret.put("granted", true);
       call.resolve(ret);
     } else {
-      requestPermissionForAlias("wallpaper", call, "handlePermissionResult");
+      requestPermissionForAlias("wallpaper", call, "permissionCallback");
     }
-  }
-
-  private void setWallpaperInternal(PluginCall call, String type) {
-    String imagePath = call.getString("imagePath");
-    if (imagePath == null || imagePath.isEmpty()) {
-      call.reject("Image path is required");
-      return;
-    }
-
-    if (!hasWallpaperPermission()) {
-      call.reject("Wallpaper permission not granted");
-      return;
-    }
-
-    try {
-      Bitmap bitmap = loadBitmapFromPath(imagePath);
-      if (bitmap == null) {
-        call.reject("Failed to load image from: " + imagePath);
-        return;
-      }
-
-      WallpaperManager wallpaperManager = WallpaperManager.getInstance(getContext());
-
-      switch (type) {
-        case "home":
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_SYSTEM);
-          } else {
-            wallpaperManager.setBitmap(bitmap);
-          }
-          break;
-
-        case "lock":
-          wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK);
-          break;
-
-        case "both":
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            wallpaperManager.setBitmap(bitmap, null, true,
-              WallpaperManager.FLAG_SYSTEM | WallpaperManager.FLAG_LOCK);
-          } else {
-            wallpaperManager.setBitmap(bitmap);
-          }
-          break;
-
-        default:
-          call.reject("Invalid wallpaper type: " + type);
-          return;
-      }
-
-      JSObject ret = new JSObject();
-      ret.put("success", true);
-      ret.put("message", "Wallpaper set successfully for " + type + " screen");
-      call.resolve(ret);
-
-    } catch (IOException e) {
-      call.reject("IOException: " + e.getMessage());
-    } catch (Exception e) {
-      call.reject("Unexpected error: " + e.getMessage());
-    }
-  }
-
-  private boolean hasWallpaperPermission() {
-    return ContextCompat.checkSelfPermission(getContext(), Manifest.permission.SET_WALLPAPER)
-      == PackageManager.PERMISSION_GRANTED;
-  }
-
-  private Bitmap loadBitmapFromPath(String imagePath) {
-    try {
-      Context context = getContext();
-
-      if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-        // Load from URL
-        URL url = new URL(imagePath);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setDoInput(true);
-        connection.connect();
-        InputStream inputStream = connection.getInputStream();
-        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-        inputStream.close();
-        connection.disconnect();
-        return bitmap;
-
-      } else if (imagePath.startsWith("content://") || imagePath.startsWith("file://")) {
-        // Load from content URI or file URI
-        Uri uri = Uri.parse(imagePath);
-        InputStream inputStream = context.getContentResolver().openInputStream(uri);
-        if (inputStream != null) {
-          Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-          inputStream.close();
-          return bitmap;
-        }
-      } else if (imagePath.startsWith("/")) {
-        // Load from absolute path
-        return BitmapFactory.decodeFile(imagePath);
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return null;
   }
 
   @Override
@@ -182,5 +184,40 @@ public class WallpaperPlugin extends Plugin {
     boolean granted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
     ret.put("granted", granted);
     savedCall.resolve(ret);
+  }
+
+  private boolean hasWallpaperPermission() {
+    return ContextCompat.checkSelfPermission(getContext(), Manifest.permission.SET_WALLPAPER)
+      == PackageManager.PERMISSION_GRANTED;
+  }
+
+  private Bitmap loadBitmapFromPath(String imagePath) {
+    try {
+      Context context = getContext();
+      InputStream inputStream;
+
+      if (imagePath.startsWith("content://") || imagePath.startsWith("file://")) {
+        Uri uri = Uri.parse(imagePath);
+        inputStream = context.getContentResolver().openInputStream(uri);
+      } else if (imagePath.startsWith("/")) {
+        // Absolute path
+        return BitmapFactory.decodeFile(imagePath);
+      } else {
+        // Relative path or asset
+        inputStream = context.getAssets().open(imagePath);
+      }
+
+      if (inputStream != null) {
+        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+        inputStream.close();
+        return bitmap;
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    return null;
   }
 }
